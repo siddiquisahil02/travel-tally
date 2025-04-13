@@ -1,7 +1,6 @@
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
-const serverless = require('serverless-http');
 // const cors = require('cors')
 const dotenv = require('dotenv')
 
@@ -24,5 +23,5 @@ if(process.env.ENV=="Dev"){
     console.log(`Example app listening on port ${process.env.PORT}`)
   })
 }else{
-  module.exports.handler = serverless(app);
+  module.exports = app;
 }
