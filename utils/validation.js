@@ -17,6 +17,15 @@ const forgotPasswordValidate = Joi.object({
   email: Joi.string().email().required(),
 });
 
+const forgetPasswordVerifyValidate = Joi.object({
+  email: Joi.string().email().required(),
+  code:Joi.string().length(6).required(),
+  newPassword: Joi.string().min(6).max(20).required()
+})
+
 module.exports = {
   userValidate,
+  loginValidate,
+  forgotPasswordValidate,
+  forgetPasswordVerifyValidate
 };
