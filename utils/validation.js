@@ -23,9 +23,20 @@ const forgetPasswordVerifyValidate = Joi.object({
   newPassword: Joi.string().min(6).max(20).required()
 })
 
+const corpRegisterValidate = Joi.object({
+  corpName: Joi.string().required(),
+  address: Joi.string().required(),
+  city: Joi.string().required(),
+  state: Joi.string().required(),
+  pincode: Joi.string().required(),
+  gstin: Joi.string().required()
+
+})
+
 module.exports = {
   userValidate,
   loginValidate,
   forgotPasswordValidate,
-  forgetPasswordVerifyValidate
+  forgetPasswordVerifyValidate,
+  corpRegisterValidate
 };
