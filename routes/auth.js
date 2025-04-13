@@ -145,7 +145,7 @@ router.post("/forgetPasswordVerify",async function (req,res){
     }
     }catch (err) {
         console.log(err);
-        return res.status(500).json({ message: "Error registering user" });
+        return res.status(500).json({ message: `Error in this operation ${err}` });
     }
 })
 
