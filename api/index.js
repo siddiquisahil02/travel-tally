@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
+const serverless = require('serverless-http');
 // const cors = require('cors')
 const dotenv = require('dotenv')
 
@@ -18,8 +19,10 @@ const indexRoutes = require('./routes/indexRoutes')
 
 app.use('/api', indexRoutes)
 
-app.listen(process.env.PORT, () => {
-  console.log(`Example app listening on port ${process.env.PORT}`)
-})
-
-module.exports = app;
+if(process.env.ENV=="Dev"){
+  app.listen(process.env.PORT, () => {
+    console.log(`Example app listening on port ${process.env.PORT}`)
+  })
+}else{
+  module.exports.handler = serverless(app);
+}

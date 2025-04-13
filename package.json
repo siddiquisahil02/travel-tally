@@ -7,18 +7,18 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.15.0",
     "mongoose": "^8.13.2",
+    "serverless-http": "^3.2.0",
     "twilio": "^5.5.2"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
   },
-  "name": "drivetrack",
+  "name": "travel-tally",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js",
-    "build" : "node index.js"
+    "start": "nodemon .\\api\\index.js"
   },
   "author": "",
   "license": "ISC",
