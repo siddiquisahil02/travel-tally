@@ -10,6 +10,7 @@ const CorpSchema = new Schema({
     state: {type: String, required: true},
     pincode: {type: String, required: true},
     gstin: {type: String, required: true},
+    phone: {type: String, required: true},
     altPhone: {type: String, required: false},
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now } 

@@ -1,15 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcrypt");
 const UsersModel = require("../model/users");
 const CorpModel = require("../model/corp")
 const { corpRegisterValidate } = require("../utils/validation");
 
 router.post("/register",async function (req, res) {
+    console.log("Hitting Corp Register")
     const { error } = corpRegisterValidate.validate(req.body);
     if (error) {
         return res.status(400).json({ message: error.details[0].message });
     }
+
+    const user = await UsersModel.findById(req.userId)
 
     const corp = new CorpModel({
         corpName: req.body.corpName,
@@ -19,6 +21,7 @@ router.post("/register",async function (req, res) {
         state: req.body.state,
         pincode: req.body.pincode,
         gstin: req.body.gstin,
+        phone: user.phone,
         altPhone : req.body.altPhone
     });
     
@@ -33,6 +36,7 @@ router.post("/register",async function (req, res) {
 });
 
 router.put("/update/:corpId",async function (req,res) {
+    console.log("Hitting Update Corp")
     try{
         const corpId = req.params.corpId;
         if(!corpId){
@@ -56,6 +60,7 @@ router.put("/update/:corpId",async function (req,res) {
 })
 
 router.get("/getAll",async function (req, res) {
+    console.log("Hitting Get All Corp")
     try {
     const corpRecords = await CorpModel.find({userId:req.userId})
     let finalData = []
