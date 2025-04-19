@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 
 
 router.post("/register",async function (req, res) {
+    console.log("Hitting the resigter User")
     const { error } = userValidate.validate(req.body);
     if (error) {
         return res.status(400).json({ message: error.details[0].message });
@@ -38,7 +39,7 @@ router.post("/register",async function (req, res) {
         const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
             expiresIn: '1h',
         });
-        res.status(201).json({ userId: savedUser._id, message: "User registered successfully", token:token });
+        return res.status(201).json({ userId: savedUser._id, message: "User registered successfully", token:token });
     } catch (err) {
         console.log(err);
         return res.status(500).json({ message: "Error registering user" });
@@ -46,6 +47,7 @@ router.post("/register",async function (req, res) {
 });
 
 router.post("/verify", async function (req, res) {
+    console.log("Hitting the verify User")
     const { phone, code } = req.body;
     if (!phone || !code) {
         return res.status(400).json({ message: "Phone number and code are required" });
@@ -67,6 +69,7 @@ router.post("/verify", async function (req, res) {
 );
 
 router.post("/login", async function (req, res) {
+    console.log("Hitting the Login User")
     try{
         const { error } = loginValidate.validate(req.body);
         if (error) {
@@ -95,6 +98,7 @@ router.post("/login", async function (req, res) {
 });
 
 router.post("/forgetPassword",async function (req,res){
+    console.log("Hitting the forgot password")
     try{
         const { error } = forgotPasswordValidate.validate(req.body);
     if (error) {
@@ -122,6 +126,7 @@ router.post("/forgetPassword",async function (req,res){
 })
 
 router.post("/forgetPasswordVerify",async function (req,res){
+    console.log("Hitting the forgot password verify")
     try{
         const { error } = forgetPasswordVerifyValidate.validate(req.body);
     if (error) {

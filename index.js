@@ -3,6 +3,7 @@ const app = express()
 const mongoose = require('mongoose')
 const cors = require('cors')
 const dotenv = require('dotenv')
+const port = process.env.PORT || 4500;
 
 dotenv.config()
 
@@ -19,8 +20,8 @@ const indexRoutes = require('./routes/indexRoutes')
 app.use('/api', indexRoutes)
 
 if(process.env.ENV=="Dev"){
-  app.listen(process.env.PORT, () => {
-    console.log(`Example app listening on port ${process.env.PORT}`)
+  app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`)
   })
 }else{
   module.exports = app;

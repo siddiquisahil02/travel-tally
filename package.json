@@ -9,6 +9,7 @@
     "mongodb": "^6.15.0",
     "mongoose": "^8.13.2",
     "serverless-http": "^3.2.0",
+    "travel-tally": "file:",
     "twilio": "^5.5.2"
   },
   "devDependencies": {

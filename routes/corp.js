@@ -4,8 +4,6 @@ const bcrypt = require("bcrypt");
 const UsersModel = require("../model/users");
 const CorpModel = require("../model/corp")
 const { corpRegisterValidate } = require("../utils/validation");
-const jwt = require('jsonwebtoken');
-
 
 router.post("/register",async function (req, res) {
     const { error } = corpRegisterValidate.validate(req.body);
@@ -20,8 +18,8 @@ router.post("/register",async function (req, res) {
         city: req.body.city,
         state: req.body.state,
         pincode: req.body.pincode,
-        gstin: req.body.gstin
-        
+        gstin: req.body.gstin,
+        altPhone : req.body.altPhone
     });
     
     
@@ -33,6 +31,30 @@ router.post("/register",async function (req, res) {
         return res.status(500).json({ message: "Error registering Corp" });
     }
 });
+
+router.put("/update/:corpId",async function (req,res) {
+    try{
+        const corpId = req.params.corpId;
+        if(!corpId){
+            return res.status(400).json({message : "Need Corp Id"});
+        }
+        const updateFields = req.body;
+        const updatedCorp = await CorpModel.findByIdAndUpdate(
+            corpId,
+            { $set: updateFields },
+            { new: true } // return the updated document
+        );
+      
+        if (!updatedCorp) {
+            return res.status(404).json({ message: 'Corp not found' });
+        }
+        return res.status(200).json({ message: 'Corp updated successfully', data: updatedCorp });
+    } catch(err){
+        console.log(err);
+        return res.status(500).json({message : "Error updating the Corp"})
+    } 
+})
+
 router.get("/getAll",async function (req, res) {
     try {
     const corpRecords = await CorpModel.find({userId:req.userId})

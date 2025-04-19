@@ -29,8 +29,8 @@ const corpRegisterValidate = Joi.object({
   city: Joi.string().required(),
   state: Joi.string().required(),
   pincode: Joi.string().required(),
-  gstin: Joi.string().required()
-
+  gstin: Joi.string().required(),
+  altPhone : Joi.string().optional()
 })
 
 module.exports = {
