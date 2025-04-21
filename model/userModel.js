@@ -8,8 +8,6 @@ const UserSchema = new Schema({
     phone: { type: String, required: true, unique: true },
     phoneVerified: { type: Boolean, default: false },
     password: { type: String, required: true },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now },
     isActive: { type: Boolean, default: true },
     lastLogin: { type: Date, default: null },
     profilePicture: { type: String, default: null },
@@ -18,9 +16,8 @@ const UserSchema = new Schema({
     subscriptionEndDate: { type: Date, default: null },
     subscriptionStatus: { type: String, enum: ["active", "inactive"], default: "inactive" },
     subscriptionType: { type: String, enum: ["monthly", "yearly"], default: "monthly" },
-});
+},{timestamps:true});
 
-// Compile model from schema
 const UsersModel = mongoose.model("Users", UserSchema);
 
 module.exports = UsersModel;

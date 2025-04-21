@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const UsersModel = require("../model/users");
+const UsersModel = require("../model/userModel");
 const { sendVerificationCode,verifyCode } = require("../utils/twilioVerify");
 const { userValidate,loginValidate,forgetPasswordVerifyValidate,forgotPasswordValidate } = require("../utils/validation");
 const jwt = require('jsonwebtoken');
