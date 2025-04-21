@@ -2,8 +2,8 @@ const { required } = require("joi");
 const mongoose = require("mongoose");
 
 const vehicleSchema = new mongoose.Schema({
-    corpId : { type: mongoose.Types.ObjectId, required: true, ref: "Corp"},
-    userId : { type: mongoose.Types.ObjectId, required: true, ref: "Users"},
+    corpId : { type: mongoose.Schema.Types.ObjectId, required: true, ref: "Corp"},
+    userId : { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User"},
     model : { type: String, required: true},
     color : { type: String, required: true},
     year : { type: String, required: true},

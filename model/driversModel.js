@@ -31,4 +31,4 @@ const driverSchema = new mongoose.Schema({
     }
 }, {timestamps:true})
 
-module.exports = mongoose.model("Drivers", driverSchema)
+module.exports = mongoose.model("Driver", driverSchema)

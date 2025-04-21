@@ -59,18 +59,13 @@ router.post("/register",async function (req, res) {
 // })
 
 router.get("/getAll",async function (req, res) {
-    console.log("Hitting Get All Corp")
+    console.log("Hitting Get All Vehicles")
     try {
-    const corpRecords = await CorpModel.find({userId:req.userId})
-    let finalData = []
-    corpRecords.forEach((e)=>{
-        //console.log(e.toJSON())
-        finalData.push(e.toJSON())
-    })
-        return res.status(200).json({found:finalData.length,data:finalData});
+    const vehicleRecords = await VehicleModel.find()
+    return res.status(200).send({status: true, length: vehicleRecords.length,vehicleRecords});
     } catch (err) {
         console.log(err);
-        return res.status(500).json({ message: "Error Getting all the Corp" });
+        return res.status(500).json({ message: "Error Getting all the Vehicles" });
     }
 });
 module.exports = router;

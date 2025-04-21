@@ -18,6 +18,6 @@ const UserSchema = new Schema({
     subscriptionType: { type: String, enum: ["monthly", "yearly"], default: "monthly" },
 },{timestamps:true});
 
-const UsersModel = mongoose.model("Users", UserSchema);
+const UsersModel = mongoose.model("User", UserSchema);
 
 module.exports = UsersModel;
