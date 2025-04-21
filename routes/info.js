@@ -6,7 +6,12 @@ const router = express.Router()
 router.get("/me", async (req,res)=>{
     try {
         //const user = await UsersModel.findById(req.userId)
-        const corp = await CorpModel.findOne({userId:req.userId}).populate('user')
+        const corp = await CorpModel.findOne({
+            userId:req.userId
+        },"corpName city state altPhone -_id").populate({
+            path:'userId',
+            select:"firstName lastName email phone phoneVerified profilePicture role subscriptionStartDate subscriptionEndDate subscriptionStatus -_id"
+        })
         return res.status(200).send(corp);
     } catch (error) {
         console.log(error)
