@@ -13,6 +13,9 @@ router.post("/register",async function (req, res) {
         }
 
         const corp = await CorpModel.findOne({userId:req.userId})
+        if(!corp){
+            return res.status(400).json({ message: "Corp not found" });
+        }
 
         const vehicle = new VehicleModel({
             userId: req.userId,
@@ -32,31 +35,6 @@ router.post("/register",async function (req, res) {
         return res.status(500).json({ message: "Error registering Vehicle" });
     }
 });
-
-// router.put("/update/:corpId",async function (req,res) {
-//     console.log("Hitting Update Corp")
-//     try{
-//         const corpId = req.params.corpId;
-//         if(!corpId){
-//             return res.status(400).json({message : "Need Corp Id"});
-//         }
-//         const updateFields = req.body;
-//         /// TODO: updateFields["updatedAt"] = "UPDATE THIS"
-//         const updatedCorp = await CorpModel.findByIdAndUpdate(
-//             corpId,
-//             { $set: updateFields },
-//             { new: true } // return the updated document
-//         );
-      
-//         if (!updatedCorp) {
-//             return res.status(404).json({ message: 'Corp not found' });
-//         }
-//         return res.status(200).json({ message: 'Corp updated successfully', data: updatedCorp });
-//     } catch(err){
-//         console.log(err);
-//         return res.status(500).json({message : "Error updating the Corp"})
-//     } 
-// })
 
 router.get("/getAll",async function (req, res) {
     console.log("Hitting Get All Vehicles")

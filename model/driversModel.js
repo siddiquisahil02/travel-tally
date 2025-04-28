@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 
 const driverSchema = new mongoose.Schema({
+    corpId : { type: mongoose.Schema.Types.ObjectId, required: true, ref: "Corp"},
+    userId : { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User"},
     firstName:{
         type: String,
         required: true
@@ -11,7 +13,8 @@ const driverSchema = new mongoose.Schema({
     },
     phone:{
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     aadhar:{
         type: String,
