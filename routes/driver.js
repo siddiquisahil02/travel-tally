@@ -12,7 +12,8 @@ router.post("/register", driverController)
 // GET ALL DRIVER || GET
 router.get("/get", getAllDrivers)
 
-router.post("/uploadfile/:type/:driverId", upload.single("file"),uploadImage)
+const cpUpload = upload.fields([{ name: 'front', maxCount: 1 }, { name: 'back', maxCount: 1 }])
+router.post("/uploadfile/:type/:driverId", cpUpload,uploadImage)
 
 router.put("/update/:driverId",updateDriver)
 

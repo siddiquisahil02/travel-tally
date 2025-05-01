@@ -97,23 +97,48 @@ const uploadImage = async (req, res)=>{
             if(!driver){
                 return res.status(400).json({ message: "Driver not found" });
             }
-            if (!req.file) {
-                return res.status(400).json({ message: "No file uploaded" });
+            const files = req.files;
+            // console.log(req)
+            if (!files || !files.front || !files.back) {
+                return res.status(400).json({ error: 'Both Front and Back images are required' });
             }
-            const filePath = req.file.path;
-            const fileName = req.file.originalname;
-            const fileBuffer = fs.readFileSync(filePath);
-            const response = await imagekit.upload({
-            file: fileBuffer,
-            fileName: fileName,
-            folder: `/Travel-Tally/${type}`
-            });
-            fs.unlinkSync(filePath);
+            const uploadToImageKit = async (file) => {
+                const buffer = fs.readFileSync(file.path);
+                const result = await imagekit.upload({
+                  file: buffer,
+                  fileName: file.originalname,
+                  folder: `/Travel-Tally/${type}`,
+                });
+                fs.unlinkSync(file.path); // clean up temp file
+                return result.url;
+            };
+            // const frontfilePath = req.front.path;
+            // const frontfileName = req.front.originalname;
+            // const frontfileBuffer = fs.readFileSync(frontfilePath);
+            // const frontResponse = await imagekit.upload({
+            //     file: frontfileBuffer,
+            //     fileName: frontfileName,
+            //     folder: `/Travel-Tally/${type}`
+            // });
+            // fs.unlinkSync(frontfilePath);
+            // const backfilePath = req.back.path;
+            // const backfileName = req.back.originalname;
+            // const backfileBuffer = fs.readFileSync(backfilePath);
+            // const backResponse = await imagekit.upload({
+            //     file: backfileBuffer,
+            //     fileName: backfileName,
+            //     folder: `/Travel-Tally/${type}`
+            // });
+            // fs.unlinkSync(backfilePath);/
+            const frontResUrl = await uploadToImageKit(files.front[0]);
+            const backResUrl = await uploadToImageKit(files.back[0]);
             if(type=="Licence"){
-                driver.license = response.url;
+                driver.license.push(frontResUrl);
+                driver.license.push(backResUrl);
             }
             if(type=="Aadhar"){
-                driver.aadhar = response.url;
+                driver.aadhar.push(frontResUrl)   
+                driver.aadhar.push(backResUrl)   
             }
             await driver.save();
             return res.status(200).json({

@@ -17,12 +17,12 @@ const driverSchema = new mongoose.Schema({
         unique: true
     },
     aadhar:{
-        type: String,
+        type: [String],
         required: false
     },
     license:{
-        type: String,
-        required: false
+        type: [String],
+        required: true
     },
     address:{
         type: String,
