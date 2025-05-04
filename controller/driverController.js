@@ -185,4 +185,22 @@ const updateDriver = async (req,res)=>{
         } 
 }
 
-module.exports = {driverController, getAllDrivers, uploadImage, updateDriver}
+const deleteDriver = async (req,res)=>{
+    console.log("Hitting Delete Driver")
+    try{
+        const driverId = req.params.driverId;
+        if(!driverId){
+            return res.status(400).json({message : "Need Driver Id"});
+        }
+        const deletedDriver = await DriverModel.findByIdAndDelete(driverId);
+        if (!deletedDriver) {
+            return res.status(404).json({ message: 'Driver not found' });
+        }
+        return res.status(200).json({ message: 'Driver deleted successfully'});
+    } catch(err){
+        console.log(err);
+        return res.status(500).json({message : "Error deleting the Driver"})
+    } 
+}
+
+module.exports = {driverController, getAllDrivers, uploadImage, updateDriver, deleteDriver}

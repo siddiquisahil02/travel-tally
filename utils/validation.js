@@ -51,6 +51,16 @@ const vehicleRegisterValidate = Joi.object({
   totalKms : Joi.number().required(),
   mileage: Joi.number().optional()
 })
+const clientRegisterValidate = Joi.object({
+  clientName: Joi.string().required(),
+  address: Joi.string().required(),
+  city: Joi.string().required(),
+  state: Joi.string().required(),
+  pincode: Joi.string().length(6).required(),
+  gstin: Joi.string().required(),
+  phone : Joi.string().length(10).optional(),
+  email: Joi.string().email().required(),
+})
 
 module.exports = {
   userValidate,
@@ -59,5 +69,6 @@ module.exports = {
   forgetPasswordVerifyValidate,
   corpRegisterValidate,
   driverRegisterValidate,
-  vehicleRegisterValidate
+  vehicleRegisterValidate,
+  clientRegisterValidate
 };

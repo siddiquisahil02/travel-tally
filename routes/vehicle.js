@@ -46,4 +46,33 @@ router.get("/getAll",async function (req, res) {
         return res.status(500).json({ message: "Error Getting all the Vehicles" });
     }
 });
+
+router.put("/update/:vehicleId",async function (req, res) {
+    console.log("Hitting Update Vehicle")
+    try {
+        const vehicleId = req.params.vehicleId;
+        const vehicle = await VehicleModel.findByIdAndUpdate(vehicleId, req.body, { new: true });
+        if (!vehicle) {
+            return res.status(404).json({ message: "Vehicle not found" });
+        }
+        return res.status(200).json({ message: "Vehicle updated successfully", vehicle });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "Error updating Vehicle" });
+    }
+});
+router.delete("/delete/:vehicleId",async function (req, res) {
+    console.log("Hitting Delete Vehicle")
+    try {
+        const vehicleId = req.params.vehicleId;
+        const vehicle = await VehicleModel.findByIdAndDelete(vehicleId);
+        if (!vehicle) {
+            return res.status(404).json({ message: "Vehicle not found" });
+        }
+        return res.status(200).json({ message: "Vehicle deleted successfully" });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "Error deleting Vehicle" });
+    }
+});
 module.exports = router;
