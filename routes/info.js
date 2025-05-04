@@ -4,6 +4,7 @@ const CorpModel = require("../model/corpModel")
 const router = express.Router()
 
 router.get("/me", async (req,res)=>{
+    console.log("Hitting Get Me Info")
     try {
         //const user = await UsersModel.findById(req.userId)
         const corp = await CorpModel.findOne({

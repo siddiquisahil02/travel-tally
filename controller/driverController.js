@@ -2,6 +2,7 @@ const {driverRegisterValidate} = require('../utils/validation')
 const DriverModel = require('../model/driversModel')
 const ImageKit = require('imagekit')
 const fs = require('fs')
+const path = require('path')
 const CorpModel = require('../model/corpModel')
 
 const ikPublicKey = process.env.IMAGEKIT_PUBLIC_KEY
@@ -16,6 +17,7 @@ const imagekit = new ImageKit({
 
 // Register || POST
 const driverController = async (req, res) => {
+    console.log("Hitting Driver Registration")
     try {
         const { error } = driverRegisterValidate.validate(req.body);
     if (error) {
@@ -61,6 +63,7 @@ const driverController = async (req, res) => {
 }
 
 const getAllDrivers = async (req, res) => {
+    console.log("Hitting Get All Drivers")
     try {
         const driver = await DriverModel.find()
         if(!driver){
@@ -84,22 +87,41 @@ const getAllDrivers = async (req, res) => {
 
 const uploadImage = async (req, res)=>{
     try {
+        console.log("Hitting Upload Image")
         const type = req.params.type;
         if(!type){
+            fs.unlink(req.files.front[0].path,(err)=>{console.log});
+            fs.unlink(req.files.back[0].path,(err)=>{console.log});
             return res.status(400).json({ message: "No type provided" });
         }
         if(type=="Licence" || type=="Aadhar"){
             const driverId = req.params.driverId;
             if(!driverId){
+                fs.unlink(req.files.front[0].path,(err)=>{console.log});
+                fs.unlink(req.files.back[0].path,(err)=>{console.log});
                 return res.status(400).json({ message: "No Driver ID provided" });
             }
             const driver = await DriverModel.findOne({_id:driverId, userId: req.userId});
             if(!driver){
+                fs.unlink(req.files.front[0].path,(err)=>{console.log});
+                fs.unlink(req.files.back[0].path,(err)=>{console.log});
                 return res.status(400).json({ message: "Driver not found" });
             }
+            if(driver.license.length > 0 && type=="Licence"){
+                fs.unlink(req.files.front[0].path,(err)=>{console.log});
+                fs.unlink(req.files.back[0].path,(err)=>{console.log});
+                return res.status(400).json({ message: "License already uploaded" });
+            }
+            if(driver.aadhar.length > 0 && type=="Aadhar"){
+                fs.unlink(req.files.front[0].path,(err)=>{console.log});
+                fs.unlink(req.files.back[0].path,(err)=>{console.log});
+                return res.status(400).json({ message: "Aadhar already uploaded" });
+            }
             const files = req.files;
-            // console.log(req)
+            // console.log(files)
             if (!files || !files.front || !files.back) {
+                fs.unlink(req.files.front[0].path,(err)=>{console.log});
+                fs.unlink(req.files.back[0].path,(err)=>{console.log});
                 return res.status(400).json({ error: 'Both Front and Back images are required' });
             }
             const uploadToImageKit = async (file) => {
@@ -109,27 +131,13 @@ const uploadImage = async (req, res)=>{
                   fileName: file.originalname,
                   folder: `/Travel-Tally/${type}`,
                 });
-                fs.unlinkSync(file.path); // clean up temp file
+               
+                fs.unlink(file.path, (err) => {
+                    if (err) throw err;
+                });
+                    
                 return result.url;
             };
-            // const frontfilePath = req.front.path;
-            // const frontfileName = req.front.originalname;
-            // const frontfileBuffer = fs.readFileSync(frontfilePath);
-            // const frontResponse = await imagekit.upload({
-            //     file: frontfileBuffer,
-            //     fileName: frontfileName,
-            //     folder: `/Travel-Tally/${type}`
-            // });
-            // fs.unlinkSync(frontfilePath);
-            // const backfilePath = req.back.path;
-            // const backfileName = req.back.originalname;
-            // const backfileBuffer = fs.readFileSync(backfilePath);
-            // const backResponse = await imagekit.upload({
-            //     file: backfileBuffer,
-            //     fileName: backfileName,
-            //     folder: `/Travel-Tally/${type}`
-            // });
-            // fs.unlinkSync(backfilePath);/
             const frontResUrl = await uploadToImageKit(files.front[0]);
             const backResUrl = await uploadToImageKit(files.back[0]);
             if(type=="Licence"){
