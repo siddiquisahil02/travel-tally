@@ -17,6 +17,11 @@ router.post("/register",async function (req, res) {
             return res.status(400).json({ message: "Corp not found" });
         }
 
+        const existingUser = await VehicleModel.findOne({ registrationNumber: req.body.registrationNumber });
+        if (existingUser) {
+            return res.status(400).json({ message: "Vehicle Already registered" });
+        }
+
         const vehicle = new VehicleModel({
             userId: req.userId,
             corpId: corp._id,
