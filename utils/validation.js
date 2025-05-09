@@ -48,6 +48,15 @@ const vehicleRegisterValidate = Joi.object({
   color: Joi.string().required(),
   year: Joi.string().length(4).required(),
   registrationNumber: Joi.string().required(),
+  type: Joi.string().valid('Hatchbacks', 'Sedan', 'SUV', 'Compact-SUV', 'MPV', 'EV','Traveller', 'Bus','Pickup','Mini-Bus').required(),
+  fuelType: Joi.string().valid('Diesel', 'Petrol', 'Petrol/CNG','EV').required(),
+  note: Joi.string().optional(),
+  isCommercial: Joi.boolean().default(false).required(),
+  permitExpiry: Joi.date().optional(),
+  fitnessExpiry: Joi.date().optional(),
+  insuranceExpiry: Joi.date().optional(),
+  pollutionExpiry: Joi.date().optional(),
+  lastServiceDate: Joi.date().optional(),
   totalKms : Joi.number().required(),
   mileage: Joi.number().optional()
 })

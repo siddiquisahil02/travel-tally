@@ -26,6 +26,15 @@ router.post("/register",async function (req, res) {
             userId: req.userId,
             corpId: corp._id,
             model: req.body.model,
+            type: req.body.type,
+            fuelType: req.body.fuelType,
+            note: req.body.note,
+            insuranceExpiry: req.body.insuranceExpiry,
+            pollutionExpiry: req.body.pollutionExpiry,
+            lastServiceDate: req.body.lastServiceDate,
+            fitnessExpiry: req.body.fitnessExpiry,
+            permitExpiry: req.body.permitExpiry,
+            isCommercial: req.body.isCommercial,
             color: req.body.color,
             year: req.body.year,
             registrationNumber: req.body.registrationNumber,
@@ -44,7 +53,13 @@ router.post("/register",async function (req, res) {
 router.get("/getAll",async function (req, res) {
     console.log("Hitting Get All Vehicles")
     try {
-    const vehicleRecords = await VehicleModel.find()
+    const vehicleRecords = await VehicleModel.find({userId:req.userId})
+        if(!vehicleRecords){
+            return res.status(500).send({
+                status: false,
+                message: "Vehicle Details not found"
+            }) 
+        }
     return res.status(200).send({status: true, length: vehicleRecords.length,vehicleRecords});
     } catch (err) {
         console.log(err);
