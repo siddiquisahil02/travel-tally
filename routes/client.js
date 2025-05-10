@@ -3,6 +3,7 @@ const router = express.Router();
 const CorpModel = require("../model/corpModel")
 const { clientRegisterValidate } = require("../utils/validation");
 const ClientModel = require("../model/clientModel");
+const rateRoutes = require("./rate.js")
 
 router.post("/register",async function (req, res) {
     console.log("Hitting client Register")
@@ -84,5 +85,7 @@ router.delete("/delete/:clientId",async function (req, res) {
         return res.status(500).json({ message: "Error deleting Client" });
     }
 }
-);  
+);
+
+router.use("/rate",rateRoutes)
 module.exports = router;

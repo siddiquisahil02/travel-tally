@@ -71,6 +71,28 @@ const clientRegisterValidate = Joi.object({
   email: Joi.string().email().required(),
 })
 
+const outstationRateValidate = Joi.object({
+  clientId: Joi.string().required(),
+  vehicleType: Joi.string().valid('Hatchbacks', 'Sedan', 'SUV', 'Compact-SUV', 'MPV', 'EV','Traveller', 'Bus','Pickup','Mini-Bus').required(),
+  rate: Joi.number().required(),
+  nightRate: Joi.number().required(),
+  minKms: Joi.number().required()
+})
+const localRateValidate = Joi.object({
+  clientId: Joi.string().required(),
+  vehicleType: Joi.string().valid('Hatchbacks', 'Sedan', 'SUV', 'Compact-SUV', 'MPV', 'EV','Traveller', 'Bus','Pickup','Mini-Bus').required(),
+  rate: Joi.number().required(),
+  maxKms: Joi.number().required(),
+  maxhours: Joi.number().required(),
+  extraHourRate: Joi.number().optional()
+})
+const transferRateValidate = Joi.object({
+  clientId: Joi.string().required(),
+  vehicleType: Joi.string().valid('Hatchbacks', 'Sedan', 'SUV', 'Compact-SUV', 'MPV', 'EV','Traveller', 'Bus','Pickup','Mini-Bus').required(),
+  rate: Joi.number().required(),
+})
+
+
 module.exports = {
   userValidate,
   loginValidate,
@@ -79,5 +101,8 @@ module.exports = {
   corpRegisterValidate,
   driverRegisterValidate,
   vehicleRegisterValidate,
-  clientRegisterValidate
+  clientRegisterValidate,
+  outstationRateValidate,
+  localRateValidate,
+  transferRateValidate
 };
