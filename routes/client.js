@@ -12,11 +12,6 @@ router.post("/register",async function (req, res) {
         return res.status(400).json({ message: error.details[0].message });
     }
 
-    const existingUser = await ClientModel.findOne({ phone: req.body.phone });
-    if (existingUser) {
-        return res.status(400).json({ message: "Phone number already exists" });
-    }
-
     const corp = await CorpModel.findOne({userId:req.userId})
     if(!corp){
         return res.status(400).json({ message: "Corp not found" });
@@ -40,7 +35,7 @@ router.post("/register",async function (req, res) {
         return res.status(201).json({ clientRecordId: clientRecord._id, message: "Client registered successfully"});
     } catch (err) {
         console.log(err);
-        return res.status(500).json({ message: "Error registering Client" });
+        return res.status(500).json({ message: `Error registering Client ${err}` });
     }
 });
 
