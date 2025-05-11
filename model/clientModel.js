@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const ClientSchema = new Schema({
     clientName: { type: String, required: true },
-    userId: {type: mongoose.Schema.Types.ObjectId, required: true, unique: true, ref: 'User'},
-    corpId: {type: mongoose.Schema.Types.ObjectId, required: true, unique: true, ref: 'Corp'},
+    userId: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'},
+    corpId: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Corp'},
     address: {type: String, required: true},
     city: {type: String, required: true},
     state: {type: String, required: true},
