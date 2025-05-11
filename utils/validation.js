@@ -66,9 +66,9 @@ const clientRegisterValidate = Joi.object({
   city: Joi.string().required(),
   state: Joi.string().required(),
   pincode: Joi.string().length(6).required(),
-  gstin: Joi.string().required(),
+  gstin: Joi.string().optional(),
   phone : Joi.string().length(10).optional(),
-  email: Joi.string().email().required(),
+  email: Joi.string().email().optional(),
 })
 
 const outstationRateValidate = Joi.object({

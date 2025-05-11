@@ -9,9 +9,9 @@ const ClientSchema = new Schema({
     city: {type: String, required: true},
     state: {type: String, required: true},
     pincode: {type: String, required: true},
-    gstin: {type: String, required: true},
+    gstin: {type: String, required: false, unique: true},
     phone: {type: String, required: true, unique: true},
-    email: {type: String, required: true, unique: true}
+    email: {type: String, required: false, unique: true}
 
 },{timestamps:true});
 
