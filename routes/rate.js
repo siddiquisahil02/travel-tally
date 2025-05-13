@@ -98,15 +98,18 @@ router.get("/get/:clientId/:vehicleType",async function (req, res) {
         if(!clientId || !vehicleType){
             return res.status(400).json({ message: "Client ID and Vehicle Type is required" });
         }
-        
+        if(!['Hatchbacks', 'Sedan', 'SUV', 'Compact-SUV', 'MPV', 'EV', 'Traveller', 'Bus', 'Pickup', 'Mini-Bus'].includes(vehicleType)) {
+            return res.status(400).json({ message: "Invalid Vehicle Type" });
+        }
+
         const outstationRate = await OutstationRateModel.find({clientId:clientId,vehicleType:vehicleType},"-_id -__v -corpId -userId -clientId -createdAt -updatedAt");
         const localRate = await LocalRateModel.find({clientId:clientId,vehicleType:vehicleType},"-_id -__v -corpId -userId -clientId -createdAt -updatedAt");
         const transferRate = await TransferRateModel.find({clientId:clientId,vehicleType:vehicleType},"-_id -__v -corpId -userId -clientId -createdAt -updatedAt");
-        const rate = [...outstationRate, ...localRate, ...transferRate];
-        if(rate.length==0){
-            return res.status(400).json({ message: "No Rates found" });
-        }
-        return res.status(200).json({ rateRecords: rate});
+        //const rate = [...outstationRate, ...localRate, ...transferRate];
+        // if(rate.length==0){
+        //     return res.status(400).json({ message: "No Rates found" });
+        // }
+        return res.status(200).send({ outstationRate,localRate,transferRate });
     } catch (err) {
         console.log(err);
         return res.status(500).json({ message: "Error getting Rates" });
