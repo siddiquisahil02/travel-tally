@@ -3,7 +3,10 @@ const router = express.Router();
 const CorpModel = require("../model/corpModel")
 const { clientRegisterValidate } = require("../utils/validation");
 const ClientModel = require("../model/clientModel");
-const rateRoutes = require("./rate.js")
+const rateRoutes = require("./rate.js");
+const OutstationRateModel = require("../model/rates/outstationRateModel.js");
+const localRateModel = require("../model/rates/localRateModel.js");
+const transferRatesModel = require("../model/rates/transferRatesModel.js");
 
 router.post("/register",async function (req, res) {
     console.log("Hitting client Register")
@@ -74,7 +77,13 @@ router.delete("/delete/:clientId",async function (req, res) {
         if (!client) {
             return res.status(404).json({ message: "Client not found" });
         }
-        return res.status(200).json({ message: "Client deleted successfully" });
+        const outstationRateRecords = await OutstationRateModel.deleteMany({clientId:clientId});
+        const localRateRecords = await localRateModel.deleteMany({clientId: clientId});
+        const transferRateRecords = await transferRatesModel.deleteMany({clientId: clientId});
+        if(!outstationRateRecords || !localRateRecords || !transferRateRecords){
+            return res.status(404).json({message: "Deleted client but failed to delete all rates."})
+        }
+        return res.status(200).json({ message: `Client deleted successfully and deleted ${outstationRateRecords.deletedCount} outstation rate, ${localRateRecords.deletedCount} local rate, ${transferRateRecords.deletedCount} transfer rate` });
     } catch (err) {
         console.log(err);
         return res.status(500).json({ message: "Error deleting Client" });
