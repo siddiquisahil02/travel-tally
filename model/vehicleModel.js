@@ -1,4 +1,3 @@
-const { required } = require("joi");
 const mongoose = require("mongoose");
 
 const vehicleSchema = new mongoose.Schema({
@@ -21,4 +20,6 @@ const vehicleSchema = new mongoose.Schema({
     mileage : {type: Number, required: false}
 },{timestamps:true});
 
-module.exports = mongoose.model("Vehicle",vehicleSchema);
+const VehicleModel = mongoose.model("Vehicle",vehicleSchema);
+
+module.exports = VehicleModel

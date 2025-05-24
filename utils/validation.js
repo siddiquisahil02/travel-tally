@@ -19,7 +19,7 @@ const forgotPasswordValidate = Joi.object({
 
 const forgetPasswordVerifyValidate = Joi.object({
   email: Joi.string().email().required(),
-  code:Joi.string().length(6).required(),
+  code: Joi.string().length(6).required(),
   newPassword: Joi.string().min(6).max(20).required()
 })
 
@@ -30,7 +30,7 @@ const corpRegisterValidate = Joi.object({
   state: Joi.string().required(),
   pincode: Joi.string().required(),
   gstin: Joi.string().required(),
-  altPhone : Joi.string().optional()
+  altPhone: Joi.string().optional()
 })
 
 const driverRegisterValidate = Joi.object({
@@ -48,8 +48,8 @@ const vehicleRegisterValidate = Joi.object({
   color: Joi.string().required(),
   year: Joi.string().length(4).required(),
   registrationNumber: Joi.string().required(),
-  type: Joi.string().valid('Hatchbacks', 'Sedan', 'SUV', 'Compact-SUV', 'MPV', 'EV','Traveller', 'Bus','Pickup','Mini-Bus').required(),
-  fuelType: Joi.string().valid('Diesel', 'Petrol', 'Petrol/CNG','EV').required(),
+  type: Joi.string().valid('Hatchbacks', 'Sedan', 'SUV', 'Compact-SUV', 'MPV', 'EV', 'Traveller', 'Bus', 'Pickup', 'Mini-Bus').required(),
+  fuelType: Joi.string().valid('Diesel', 'Petrol', 'Petrol/CNG', 'EV').required(),
   note: Joi.string().optional(),
   isCommercial: Joi.boolean().default(false).required(),
   permitExpiry: Joi.date().optional(),
@@ -57,7 +57,7 @@ const vehicleRegisterValidate = Joi.object({
   insuranceExpiry: Joi.date().optional(),
   pollutionExpiry: Joi.date().optional(),
   lastServiceDate: Joi.date().optional(),
-  totalKms : Joi.number().required(),
+  totalKms: Joi.number().required(),
   mileage: Joi.number().optional()
 })
 const clientRegisterValidate = Joi.object({
@@ -67,20 +67,20 @@ const clientRegisterValidate = Joi.object({
   state: Joi.string().required(),
   pincode: Joi.string().length(6).required(),
   gstin: Joi.string().optional(),
-  phone : Joi.string().length(10).optional(),
+  phone: Joi.string().length(10).optional(),
   email: Joi.string().email().optional(),
 })
 
 const outstationRateValidate = Joi.object({
   clientId: Joi.string().required(),
-  vehicleType: Joi.string().valid('Hatchbacks', 'Sedan', 'SUV', 'Compact-SUV', 'MPV', 'EV','Traveller', 'Bus','Pickup','Mini-Bus').required(),
+  vehicleType: Joi.string().valid('Hatchbacks', 'Sedan', 'SUV', 'Compact-SUV', 'MPV', 'EV', 'Traveller', 'Bus', 'Pickup', 'Mini-Bus').required(),
   rate: Joi.number().required(),
   nightRate: Joi.number().required(),
   minKms: Joi.number().required()
 })
 const localRateValidate = Joi.object({
   clientId: Joi.string().required(),
-  vehicleType: Joi.string().valid('Hatchbacks', 'Sedan', 'SUV', 'Compact-SUV', 'MPV', 'EV','Traveller', 'Bus','Pickup','Mini-Bus').required(),
+  vehicleType: Joi.string().valid('Hatchbacks', 'Sedan', 'SUV', 'Compact-SUV', 'MPV', 'EV', 'Traveller', 'Bus', 'Pickup', 'Mini-Bus').required(),
   rate: Joi.number().required(),
   maxKms: Joi.number().required(),
   maxhours: Joi.number().required(),
@@ -88,10 +88,20 @@ const localRateValidate = Joi.object({
 })
 const transferRateValidate = Joi.object({
   clientId: Joi.string().required(),
-  vehicleType: Joi.string().valid('Hatchbacks', 'Sedan', 'SUV', 'Compact-SUV', 'MPV', 'EV','Traveller', 'Bus','Pickup','Mini-Bus').required(),
+  vehicleType: Joi.string().valid('Hatchbacks', 'Sedan', 'SUV', 'Compact-SUV', 'MPV', 'EV', 'Traveller', 'Bus', 'Pickup', 'Mini-Bus').required(),
   rate: Joi.number().required(),
 })
 
+const serviceRecordValidate = Joi.object({
+  vehicleId: Joi.string().required(),
+  serviceDate: Joi.date().required(),
+  serviceKms: Joi.number().required(),
+  servicedAt: Joi.string().optional(),
+  servicePrice: Joi.number().required(),
+  partsChanged: Joi.string().optional(),
+  nextServiceDate: Joi.date().required(),
+  notes: Joi.string().optional(),
+})
 
 module.exports = {
   userValidate,
@@ -104,5 +114,6 @@ module.exports = {
   clientRegisterValidate,
   outstationRateValidate,
   localRateValidate,
-  transferRateValidate
+  transferRateValidate,
+  serviceRecordValidate
 };
